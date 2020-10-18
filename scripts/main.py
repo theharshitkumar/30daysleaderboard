@@ -50,7 +50,7 @@ def data_gathering(link):
     tempdic['track2'] = track2completed
     tempdic['qcomplete_no'] = len(track1completed) + len(track2completed)
     if tempdic['qcomplete_no']!=0:
-        print(len(biglist)," ",tempdic['name']," ",tempdic['qcomplete_no']," ",tempdic['track1']," ",tempdic['track2'])
+        #print(len(biglist)," ",tempdic['name']," ",tempdic['qcomplete_no']," ",tempdic['track1']," ",tempdic['track2'])
         biglist.append(tempdic)
         print("data saved")
     else:
@@ -61,10 +61,10 @@ def data_saving (biglist):
     with open("my.json","w") as f:
         json.dump(res,f)
     f.close()
-    print(res)
+    #print(res)
 
 def start_thread(url2):
-    threads = 10
+    threads = 30
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(data_gathering, url2)
     data_saving (biglist)
