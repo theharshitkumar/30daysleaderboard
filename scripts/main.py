@@ -12,7 +12,6 @@ url =['https://google.qwiklabs.com/public_profiles/084c2e19-f7a8-4319-a840-5e3c7
 
 
 
-
 track1=[
     'Getting Started: Create and Manage Cloud Resources',
     'Perform Foundational Infrastructure Tasks in Google Cloud',
@@ -42,6 +41,9 @@ def data_gathering(link):
     profile = soup.findAll('div', attrs = {'class':'public-profile__hero'})[0]
     dp = profile.img['src']
     name = profile.h1.text
+    tlab = profile.p.text
+    labsnum = tlab.split()
+    tempdic['labsattempted'] = labsnum[0]
     tempdic['name'] = name.strip()
     tempdic['dp'] = dp
     quests = soup.findAll('ql-badge')
@@ -64,39 +66,44 @@ def data_gathering(link):
         biglist.append(tempdic)
         #print("data saved")
     else:
-        #print("no badges")
+        #print(tempdic['name']," got ",tempdic['qcomplete_no']," skill badges")
         pass
 
 def data_saving (biglist):
     #num = 0
     res = sorted(biglist, key = lambda x: x['qcomplete_no'], reverse=True)
-    print("number of people started",len(res))
+    print("number of people started : ",len(res))
     with open("my.json","w") as f:
         json.dump(res,f)
     f.close()
     tk1 = 0
     tk2 = 0
     tkt = 0
-    for tempdic in res:
+    total_lab = 0
+    for tempdic in biglist:
         x = int(tempdic['lentrack1'])
         y = int(tempdic['lentrack2'])
-
+        z = int(tempdic['labsattempted'])
+        if z>=30:
+            total_lab+=1
         if x == 6:
             tk1+=1
         if y == 6:
             tk2+=1
-        if (x+y)!= 0:
+        if x==6 or y==6:
+            #print("true")
             tkt+=1
 
     print("Number of people completed track 1 : ",tk1)
     print("Number of people completed track 2 : ",tk2)
     print("Number of people completed atleast 1 track : ",tkt)
+    print("Number of people may complete atleast 1 track  : ",total_lab)
     #print("number of people completed atleast one track ",num)
     #print(res)
 
 
 def start_thread(url2):
-    threads = 250
+    threads = 1
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(data_gathering, url2)
     data_saving (biglist)
