@@ -56,21 +56,21 @@ def data_gathering(link):
             track1completed.append(allquest)
         if allquest in track2:
             track2completed.append(allquest)
-    tempdic['track1'] = track1completed
-    tempdic['track2'] = track2completed
+    #tempdic['track1'] = track1completed
+    #tempdic['track2'] = track2completed
     tempdic['lentrack1'] = len(track1completed)
     tempdic['lentrack2'] = len(track2completed)
     #if tempdic['lentrack1'] == 6 or tempdic['lentrack2'] == 6:
     #id+=1
         #print(id)
     tempdic['qcomplete_no'] = len(track1completed) + len(track2completed)
-    #if tempdic['qcomplete_no']!=0:
-    print(tempdic['name']," got ",tempdic['qcomplete_no']," skill badges")
     biglist.append(tempdic)
+    if tempdic['qcomplete_no']!=0:
+        print(tempdic['name']," got ",tempdic['qcomplete_no']," skill badges")
         #print("data saved")
-    #else:
+    else:
     #    print(id,tempdic['name']," got ",tempdic['qcomplete_no']," skill badges")
-    #    pass
+        pass
 
 def data_saving (biglist):
     #num = 0
@@ -98,7 +98,7 @@ def data_saving (biglist):
         if x==6 or y==6:
             #print(tempdic['name'])
             tkt+=1
-            
+
 
     print("Number of people completed track 1 : ",tk1)
     print("Number of people completed track 2 : ",tk2)
