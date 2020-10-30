@@ -56,8 +56,8 @@ def data_gathering(link):
             track1completed.append(allquest)
         if allquest in track2:
             track2completed.append(allquest)
-    #tempdic['track1'] = track1completed
-    #tempdic['track2'] = track2completed
+    tempdic['track1'] = track1completed
+    tempdic['track2'] = track2completed
     tempdic['lentrack1'] = len(track1completed)
     tempdic['lentrack2'] = len(track2completed)
     #if tempdic['lentrack1'] == 6 or tempdic['lentrack2'] == 6:
