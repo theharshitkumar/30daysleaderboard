@@ -109,7 +109,7 @@ def data_saving (biglist):
 
 
 def start_thread(url2):
-    threads = 2
+    threads = 5
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(data_gathering, url2)
     data_saving (biglist)
