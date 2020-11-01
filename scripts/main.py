@@ -75,20 +75,23 @@ def data_gathering(link):
         pass
 
 def data_saving (biglist):
-    #num = 0
-
+    num = 0
     tk1 = 0
     tk2 = 0
     tkt = 0
+    tkt2 = 0
+    tkc = 0
     total_lab = 0
     for tempdic in biglist:
-        if tempdic['qcomplete_no']!=0:
-            smalllist.append(tempdic)
-
+        """
+        tempdic['sno'] = num
+        smalllist.append(tempdic)
+        num+=1
+        """
         x = int(tempdic['lentrack1'])
         y = int(tempdic['lentrack2'])
         z = int(tempdic['labsattempted'])
-        if z>=35:
+        if z>=40:
             total_lab+=1
             #if x<5 and y<6:
             #    print(tempdic['name'],"did",tempdic['labsattempted'], "and got",x,"in track 1 and",y,"in track 2")
@@ -96,26 +99,40 @@ def data_saving (biglist):
             tk1+=1
         if y==6:
             tk2+=1
+        if x==6 and y==6:
+            tkc+=1
+            tempdic['rank']=1
         if x==6 or y==6:
             #print(tempdic['name'])
+            tempdic['tkcomplete'] = "YES"
+            tkt2+=1
             tkt+=1
-
-
-    print("Number of people completed track 1 : ",tk1)
-    print("Number of people completed track 2 : ",tk2)
-    print("Number of people completed atleast 1 track : ",tkt)
-    print("Number of people may complete atleast 1 track  : ",total_lab)
+            tempdic['rank']=2
+        elif x==5 or y==5:
+            tempdic['tkcomplete'] = "close"
+            tkt+=1
+            tempdic['rank']=3
+        #elif z>=40:
+            #tempdic['tkcomplete'] = "MAYBE"
+        else:
+            tempdic['tkcomplete'] = "NO"
+            tempdic['rank']=4
+    print("Total number of people completed both track : ",tkc)
+    print("Total number of people completed track 1 : ",tk1)
+    print("Total number of people completed track 2 : ",tk2)
+    print("Total number of people completed atleast 1 track : ",tkt2)
+    print("Total number of people very close to completed atleast 1 track : ",tkt)
+    print("Total number of people may complete atleast 1 track  : ",total_lab)
     #print("number of people completed atleast one track ",num)
     #print(res)
-    res = sorted(smalllist, key = lambda x: x['qcomplete_no'], reverse=True)
-    print("number of people started : ",len(res))
+    res = sorted(biglist, key = lambda x: x['rank'], reverse=True)
     with open("my.json","w") as f:
-        json.dump(res,f)
+        json.dump(res,f,indent=4)
     f.close()
 
 
 def start_thread(url2):
-    threads = 5
+    threads = 250
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(data_gathering, url2)
     data_saving (biglist)
