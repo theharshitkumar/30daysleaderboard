@@ -65,9 +65,10 @@ def data_gathering(link):
     #id+=1
         #print(id)
     tempdic['qcomplete_no'] = len(track1completed) + len(track2completed)
-    biglist.append(tempdic)
+
     if tempdic['qcomplete_no']!=0:
         print(tempdic['name']," got ",tempdic['qcomplete_no']," skill badges")
+        biglist.append(tempdic)
 
         #print("data saved")
     else:
@@ -125,7 +126,7 @@ def data_saving (biglist):
     print("Total number of people may complete atleast 1 track  : ",total_lab)
     #print("number of people completed atleast one track ",num)
     #print(res)
-    res = sorted(biglist, key = lambda x: x['rank'], reverse=True)
+    res = sorted(biglist, key = lambda x: x['rank'])
     with open("my.json","w") as f:
         json.dump(res,f,indent=4)
     f.close()
